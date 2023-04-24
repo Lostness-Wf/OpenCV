@@ -9,9 +9,9 @@ using namespace cv;
 //int main()
 //{
 //	std::string path = "Resources/test.png";
-//	cv::Mat img = cv::imread(path);
-//	cv::imshow("image", img);
-//	cv::waitKey(0);
+//	Mat img = imread(path);
+//	imshow("image", img);
+//	waitKey(0);
 //	return 0;
 //}
 
