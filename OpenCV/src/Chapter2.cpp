@@ -5,7 +5,7 @@
 
 using namespace cv;
 
-//////////   Bacis Functions   //////////
+//////////   Basic Functions   //////////
 int main()
 {
 	std::string path = "Resources/test.png";
