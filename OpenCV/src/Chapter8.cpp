@@ -23,7 +23,7 @@ int main()
 	{
 		cap.read(img);
 
-		faceCascade.detectMultiScale(img, faces, 1.3, 10);
+		faceCascade.detectMultiScale(img, faces, 1.2, 10);
 		for (int i = 0; i < faces.size(); ++i)
 		{
 			rectangle(img, faces[i].tl(),faces[i].br(), Scalar(255, 0, 255), 3);

@@ -6,17 +6,13 @@
 using namespace cv;
 
 //////////   Color Detection   //////////
-Mat imgHSV, mask;
+VideoCapture cap(0);
+Mat img, imgHSV, mask;
 int hmin = 0, smin = 0, vmin = 0;
 int hmax = 179, smax = 255, vmax = 255;
 
 int main()
 {
-	std::string path = "Resources/shapes.png";
-	Mat img = imread(path);
-
-	cvtColor(img, imgHSV, COLOR_BGR2HSV);
-
 	namedWindow("Trackbars", (640, 200));
 	createTrackbar("Hue Min", "Trackbars", &hmin, 179);
 	createTrackbar("Hue Max", "Trackbars", &hmax, 179);
@@ -27,6 +23,9 @@ int main()
 
 	while (true)
 	{
+		cap.read(img);
+
+		cvtColor(img, imgHSV, COLOR_BGR2HSV);
 		Scalar lower(hmin, smin, vmin);
 		Scalar upper(hmax, smax, vmax);
 		inRange(imgHSV, lower, upper, mask);

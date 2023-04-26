@@ -5,7 +5,7 @@
 
 using namespace cv;
 
-Mat imgGary, imgBlur, imgCanny, imgDil, imgErode;
+Mat img, imgGary, imgBlur, imgCanny, imgDil, imgErode;
 
 void GetContours(Mat imgDil, Mat img)
 {
@@ -42,31 +42,34 @@ void GetContours(Mat imgDil, Mat img)
 	}
 }
 
+VideoCapture cap(0);
+
 int main()
 {
-	std::string path = "Resources/shapes.png";
-	Mat img = imread(path);
-
-
-	//转换为灰度
-	cvtColor(img, imgGary, COLOR_BGR2GRAY);
-	//高斯模糊
-	GaussianBlur(imgGary, imgBlur, Size(3, 3), 3, 0);
-	//轮廓检测
-	Canny(imgBlur, imgCanny, 25, 75);
-	//放大轮廓线
-	Mat kernal = getStructuringElement(MORPH_RECT, Size(3, 3));
-	dilate(imgCanny, imgDil, kernal);
-
-	GetContours(imgDil, img);
-
-	imshow("image", img);
-	//imshow("image Gray", imgGary);
-	//imshow("image Blur", imgBlur);
-	//imshow("image Canny", imgCanny);
-	//imshow("image Dil", imgDil);
-
-	waitKey(0);
+	while (true)
+	{
+		cap.read(img);
+	
+		//转换为灰度
+		cvtColor(img, imgGary, COLOR_BGR2GRAY);
+		//高斯模糊
+		GaussianBlur(imgGary, imgBlur, Size(3, 3), 3, 0);
+		//轮廓检测
+		Canny(imgBlur, imgCanny, 25, 75);
+		//放大轮廓线
+		Mat kernal = getStructuringElement(MORPH_RECT, Size(3, 3));
+		dilate(imgCanny, imgDil, kernal);
+	
+		GetContours(imgDil, img);
+	
+		imshow("image", img);
+		//imshow("image Gray", imgGary);
+		//imshow("image Blur", imgBlur);
+		//imshow("image Canny", imgCanny);
+		//imshow("image Dil", imgDil);
+	
+		waitKey(1);
+	}
 
 
 	return 0;
