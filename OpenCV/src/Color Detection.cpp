@@ -6,10 +6,12 @@
 using namespace cv;
 
 //////////   Color Detection   //////////
-VideoCapture cap(0);
+//VideoCapture cap(0);
 Mat img, imgHSV, mask;
 int hmin = 0, smin = 0, vmin = 0;
 int hmax = 179, smax = 255, vmax = 255;
+
+const std::string path = "Resources/1.jpg";
 
 int main()
 {
@@ -23,7 +25,9 @@ int main()
 
 	while (true)
 	{
-		cap.read(img);
+		//cap.read(img);
+
+		img = imread(path);
 
 		cvtColor(img, imgHSV, COLOR_BGR2HSV);
 		Scalar lower(hmin, smin, vmin);
@@ -33,7 +37,7 @@ int main()
 		imshow("image", img);
 		imshow("image HSV", imgHSV);
 		imshow("image Mask", mask);
-		waitKey(1);
+		waitKey(0);
 	}
 	return 0;
 }

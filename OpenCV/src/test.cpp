@@ -1,45 +1,31 @@
-#include <opencv2/imgcodecs.hpp>
-#include <opencv2/highgui.hpp>
-#include <opencv2/imgproc.hpp>
-#include <iostream>
-
-using namespace std;
+#include<opencv2\\core\\core.hpp>
+#include<opencv2\\highgui\\highgui.hpp>
+#include<opencv2\\imgproc\\imgproc.hpp>
+#include<iostream>
 using namespace cv;
+using namespace std;
 
-Mat img, imgGary, imgBlur, imgCanny, imgDil, imgErode, imgResult;
+const std::string path = "Resources/1.jpg";
 
-int main()
+int main(int argc, char* argv[])
 {
-	string path = "Resources/test.png";
+	Mat image = imread(path);
+	Mat image1(image.rows, image.cols, image.type(), Scalar(180, 120, 50));
+	Point center(image.cols / 2, image.rows / 2);
+	int radius = 200;
+	circle(image, center, radius, Scalar(0, 200, 100), 2, 8, 0);
+	for (int x = 0; x < image.cols; x++) {
+		for (int y = 0; y < image.rows; y++) {
+			int temp = ((x - center.x) * (x - center.x) + (y - center.y) * (y - center.y));
+			if (temp < (radius * radius)) {
+				image1.at <Vec3b>(Point(x, y))[0] = image.at <Vec3b>(Point(x, y))[0];
+				image1.at <Vec3b>(Point(x, y))[1] = image.at <Vec3b>(Point(x, y))[1];
+				image1.at <Vec3b>(Point(x, y))[2] = image.at <Vec3b>(Point(x, y))[2];
+			}
+		}
+	}
 
-	img = imread(path);
-
-	//×ª»»Îª»Ò¶È
-	cvtColor(img, imgGary, COLOR_BGR2GRAY);
-
-	//¸ßË¹Ä£ºý
-	GaussianBlur(imgGary, imgBlur, Size(7, 7), 5, 0);
-
-	//ÂÖÀª¼ì²â
-	Canny(imgBlur, imgCanny, 25, 45);
-
-	Mat kernal1 = getStructuringElement(MORPH_RECT, Size(5, 5));
-	Mat kernal2 = getStructuringElement(MORPH_RECT, Size(3,3));
-
-	//ÅòÕÍ
-	dilate(imgCanny, imgDil, kernal1);
-
-	//ÇÖÊ´
-	erode(imgDil, imgResult, kernal2);
-
-	//Mat element = getStructuringElement(MORPH_RECT, Size(300, 300));
-	//cv::morphologyEx(img, imgResult, MORPH_CLOSE, element);
-
-	imshow("img", img);
-	imshow("imgCanny", imgCanny);
-	imshow("imgDil", imgDil);
-	imshow("imgResult", imgResult);
-
+	imshow("temp", image1);
 	waitKey(0);
 	return 0;
 }
